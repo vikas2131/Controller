@@ -1,0 +1,96 @@
+body{
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #232121;
+}
+
+.flex{
+    display: flex;
+}
+
+.container{
+    width: 300px;
+    height: 540px;
+    background-color:black;
+    margin-right: 20px;
+}
+
+.arrow_left{
+    transform: rotate(90deg);
+
+}
+
+.border{
+    border-radius: 10px;
+}
+
+.ma{
+    margin-left: 53px;
+}
+
+.button{
+    margin-top: 400px;
+    margin-left: 70px;
+}
+
+.button2 {
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #fff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+
+.button2:hover {background-color: #a6aca6}
+
+.button2:active {
+  background-color: #939893;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.middle{
+    margin-left: 50px;
+    margin-top: 100px;
+}
+
+/* server css */
+
+.home{
+    margin-left: 30%;
+    margin-top: 15%;
+    width: 500px;
+    padding: 70px 50px;
+    background-color:white;
+    border-radius: 25px;
+}
+
+.header{
+    text-align: center;
+}
+
+.form{
+    margin-left: 55px;
+}
+
+.user_id{
+    margin-left: 38px;
+    margin-bottom: 15px;
+    color: #999;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.log{
+    margin-top: 25px;
+    margin-left: 160px;
+}
+
+.bg{
+    background-color: white;
+}

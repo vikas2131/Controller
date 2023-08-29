@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Communicating from Node.js to an Arduino</title>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js'></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <div class="flex middle">
+            <div class="container">
+                <div class="button">
+                    <img id="lightOn1" class="border ma button2" width="50" height="50" src="images/arrow3.png" alt="arrow-up"/>
+                    <div>
+                        <img id="lightOn2" class="border button2" width="50" height="50" src="images/arrow2.png" alt="arrow_left"/>
+                        <img id="lightOn3" class="border button2" width="50" height="50" src="images/arrow4.png" alt="arrow-down"/>
+                        <img id="lightOn4" class="border button2" width="50" height="50" src="images/arrow1.png" alt="arrow-right"/>
+                        <form id="timer" action="/logout?_method=DELETE" method="POST">
+                            <button type="submit"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <iframe width="960" height="540" src="https://www.youtube.com/embed/K6dHZlHUoPI?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+
+        <!-- <h1>Communicating from Node.js to an Arduino</h1>
+
+        <button id="lightOn1">Turn Light1 On</button>
+        <button id="lightOn2">Turn Light2 On</button>
+        <button id="lightOn3">Turn Light3 On</button>
+
+        <button id="lightOff">Turn Light Off</button>
+
+        <h2 id="listen">0</h2> -->
+
+        <script>
+            
+        var socket = io();
+
+        socket.on('connect', function(data){
+            console.log("recieved successfully!")
+        })
+
+        document.getElementById('lightOn1').onmousedown = function() {
+            socket.emit('lights', { "status":"1" });
+                
+        };
+
+        document.getElementById('lightOn1').onmouseup = function() {
+            socket.emit('lights', { "status":"5" });
+                
+        };
+
+        document.getElementById('lightOn2').onmousedown = function() {
+            socket.emit('lights', { "status":"2" });
+                
+        };
+
+        document.getElementById('lightOn1').onmouseup = function() {
+            socket.emit('lights', { "status":"6" });
+                
+        };
+
+        document.getElementById('lightOn3').onmousedown = function() {
+            socket.emit('lights', { "status":"3" });
+                
+        };
+
+        document.getElementById('lightOn1').onmouseup = function() {
+            socket.emit('lights', { "status":"7" });
+                
+        };
+            
+        document.getElementById('lightOn4').onmousedown = function(){
+            socket.emit('lights', { "status":"4" }); 
+
+        };
+
+        document.getElementById('lightOn1').onmouseup = function() {
+            socket.emit('lights', { "status":"8" });
+                
+        };
+
+        socket.on('abc', function(data){
+            socket.close();
+        })
+        
+
+        var timer;
+        var ele = document.getElementById('timer');
+
+        var sec = 0;
+        setInterval(()=>{
+            if(sec==30){
+                socket.emit('abc', { "status":"0" });
+                socket.close();
+                ele.submit();
+
+            }
+            sec ++;
+        }, 1000) // each 1 second
+        
+        
+        </script>
+        
+    </body>
+</html>
