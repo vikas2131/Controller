@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV == 'production') {
+if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 const express = require('express');
@@ -27,8 +27,8 @@ const users = []
 users.push({
   id: Date.now().toString(),
   name: "vikas",
-  email: "w@w",
-  password: "q"
+  email: "vikaspal2131@gmail.com",
+  password: "qwerty"
 })
 
 app.use(express.static( __dirname + '/public'))
