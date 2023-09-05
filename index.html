@@ -1,46 +1,133 @@
 <!doctype html>
 <html>
     <head>
-        <title>Communicating from Node.js to an Arduino</title>
+        <title>Xplorer Webspace</title>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js'></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <link rel="icon" href="images/icon.png" type="image/logo">
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
 
         <div class="flex middle">
-            <div class="container">
-                <div class="button">
+            <div class="container-h">
+                <div>
+                    <div class="flex white">
+                        <div class="ml-l">
+                            <div id="light1" class="light"></div>
+                            <span>2x</span>
+                        </div>
+
+                        <div class="ml-l">
+                            <div id="light2" class="light"></div>
+                            <span>8x</span>
+                        </div>
+
+                        <div class="ml-l">
+                            <div id="light3" class="light"></div>
+                            <span>64x</span>
+                        </div>
+
+                        <div class="ml-l">
+                            <div id="light4" class="light"></div>
+                            <span>max</span>
+                        </div>
+                    </div>
+                    <div class="mt-25 ml-l white flex">
+                        <div id="speed2" class="c-btn"><h3>-</h3></div>
+                        <div id="speed1" class="c-btn"><h3>+</h3></div>
+                    </div>
+                </div>
+
+                <div class="white section3">
+                    <form id="form" action="">
+                      <div class="">
+                        <label class="bold" for="email">latitude(DEC)</label>
+                        <input class="" type="text" id="latitude" name="latitude" required>
+                      </div>
+                      <div class="">
+                        <label class="bold" for="password">longitude(RA)</label>
+                        <input class="" type="text" id="longitude" name="longitude" required>
+                      </div>
+                      <button class="button" type="submit">SLEW</button>
+                    </form>
+                </div>
+
+                <div class="container white">
+                    <h3>focal length</h3>
+                    <input type="range" id="my-slider" min="0" max="100" value="50" oninput="slider()">
+                    <div id="slider-value">0</div>
+                </div>
+
+                <div class="ctrl-btn">
                     <img id="lightOn1" class="border ma button2" width="50" height="50" src="images/arrow3.png" alt="arrow-up"/>
                     <div>
                         <img id="lightOn2" class="border button2" width="50" height="50" src="images/arrow2.png" alt="arrow_left"/>
                         <img id="lightOn3" class="border button2" width="50" height="50" src="images/arrow4.png" alt="arrow-down"/>
                         <img id="lightOn4" class="border button2" width="50" height="50" src="images/arrow1.png" alt="arrow-right"/>
-                        <form id="timer" action="/logout?_method=DELETE" method="POST">
+                        <!-- <form id="timer" action="/logout?_method=DELETE" method="POST">
                             <button type="submit"></button>
-                        </form>
+                        </form> -->
                     </div>
                 </div>
             </div>
             <iframe width="960" height="540" src="https://www.youtube.com/embed/Yt3Y4nOLhMI?si=nk_MLYSgkJc2pbzm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
 
-        <!-- <h1>Communicating from Node.js to an Arduino</h1>
-
-        <button id="lightOn1">Turn Light1 On</button>
-        <button id="lightOn2">Turn Light2 On</button>
-        <button id="lightOn3">Turn Light3 On</button>
-
-        <button id="lightOff">Turn Light Off</button>
-
-        <h2 id="listen">0</h2> -->
+        <div class="capture">
+            <button class="cap_btn">capture</button>
+        </div>
 
         <script>
-            
-        var socket = io();
 
-        socket.on('connect', function(data){
-            console.log("recieved successfully!")
-        })
+            var socket = io();
+
+            socket.on('connect', function(data){
+                console.log("recieved successfully!")
+            })
+
+
+
+            var speed=1;
+
+            document.getElementById('speed1').onclick = function(){
+                if(speed != 4){
+                    speed+=1;
+                    document.getElementById("light"+speed).style.backgroundColor = "yellow";
+                    if(speed>1 && speed<=4){
+                        document.getElementById("light"+(speed-1)).style.backgroundColor = "white";
+                    }
+                    socket.emit('speed', {"speed": speed})  
+                }
+                 
+            }
+            document.getElementById('speed2').onclick = function(){
+                if(speed!=1){
+                    speed-=1;
+                    document.getElementById("light"+speed).style.backgroundColor = "yellow";
+                    if(speed=>1 && speed<=4){
+                        document.getElementById("light"+(speed+1)).style.backgroundColor = "white";
+                    }
+                    socket.emit('speed', {"speed": speed})
+                }
+                
+            } 
+            
+
+            form.addEventListener("submit",(e)=>{
+                e.preventDefault();
+                //Rest of the code
+                
+                socket.emit('latitude', $('#latitude').val());
+                socket.emit('longitude', $('#longitude').val());
+                //socket.emit('message', "Input");
+                //$('#Input').val('');
+               
+            });
+        
+            
+
+            
 
         document.getElementById('lightOn1').onmousedown = function() {
             socket.emit('lights', { "status":"1" });
@@ -92,7 +179,7 @@
 
         var sec = 0;
         setInterval(()=>{
-            if(sec==75){
+            if(sec==60){
                 socket.emit('abc', { "status":"0" });
                 socket.close();
                 ele.submit();

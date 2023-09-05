@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV == 'production') {
+if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 const express = require('express');
@@ -48,14 +48,29 @@ app.get('/', checkAuthenticated, (req, res) => {
   res.sendFile(INDEX, {root : __dirname})
   
   var io2 = io(server);
-
+ 
   io2.on('connection', function(check) {
       console.log("received successfully-2");
       console.log(check.id);
       check.on('lights',function(data){
           console.log( data ); 
-          io2.emit('lights', data);
+          io2.emit('lights', data); 
       });
+
+      check.on('latitude', function(msg){
+        console.log('message: ' + msg);
+        io2.emit('dec', msg);
+      });
+
+      check.on('longitude', function(msg){
+        console.log('message: ' + msg);
+        io2.emit('ra', msg);
+      });
+
+      check.on('speed', function(data){
+        io2.emit('speed', data);
+      });
+
       check.on('abc', function(data){
         console.log("disconnected");
         io2.emit('abc', {'status': '10'})
@@ -64,15 +79,15 @@ app.get('/', checkAuthenticated, (req, res) => {
           console.log("Listening on port: " + PORT);
         });
       })
-      
+    
   })
       
 });
-  
+   
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
   res.render('login.ejs')
-})
+}) 
 
 app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
   successRedirect: '/',
