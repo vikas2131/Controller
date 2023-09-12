@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV == 'production') {
+if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 const express = require('express');
@@ -70,6 +70,10 @@ app.get('/', checkAuthenticated, (req, res) => {
       check.on('speed', function(data){
         io2.emit('speed', data);
       });
+
+      check.on('captures', function(data){
+        io2.emit('captures', data);
+      })
 
       check.on('abc', function(data){
         console.log("disconnected");

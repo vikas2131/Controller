@@ -74,7 +74,7 @@
             <iframe width="960" height="540" src="https://www.youtube.com/embed/SCSQk04Eq_s?si=U1RcWTp9pn96YxSz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
 
-        <div class="capture">
+        <div class="capture" id="captures">
             <button class="cap_btn">capture</button>
         </div>
 
@@ -126,7 +126,9 @@
             });
         
             
-
+        document.getElementById('captures').onclick = function() {
+            socket.emit('captures',{"status":"15"});
+        }
             
 
         document.getElementById('lightOn1').onmousedown = function() {
